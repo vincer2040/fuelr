@@ -4,3 +4,4 @@ public/styles/index.css
 tmp
 testdb
 .env
+internal/db/*.go

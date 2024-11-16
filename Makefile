@@ -1,13 +1,17 @@
 .PHONY: all
-all: css
+all: sql css
 	go build -o bin/main
+
+.PHONY: sql
+sql:
+	sqlc generate
 
 .PHONY: css
 css:
 	pnpm css
 
 .PHONY: dev
-dev:
+dev: sql
 	air & pnpm dev
 
 .PHONY: fmt
