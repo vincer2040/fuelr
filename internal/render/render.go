@@ -8,15 +8,15 @@ import (
 )
 
 type Template struct {
-    templates *template.Template
+	templates *template.Template
 }
 
 func New() *Template {
-    tmpl := template.New("")
-    tmpl = template.Must(tmpl.ParseGlob("public/*.html"))
-    return &Template{
-        templates: tmpl,
-    }
+	tmpl := template.New("")
+	tmpl = template.Must(tmpl.ParseGlob("public/*.html"))
+	return &Template{
+		templates: tmpl,
+	}
 }
 
 func (t *Template) Render(w io.Writer, name string, data interface{}, e echo.Context) error {

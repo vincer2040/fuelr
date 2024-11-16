@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>fuelr</title>
+    <title>Sign In</title>
     <link rel="stylesheet" href="/styles/index.css">
     <script src="https://unpkg.com/htmx.org@2.0.3"></script>
 </head>
 <body>
-    <h1 class="text-2xl">Hello Fuelr</h1>
-    <a href="/signin">sign in</a>
+    <h1 class="text-xl">Sign In</h1>
+    <div class="p-10">
+        <button hx-get="/signin-gl" class="p-5 bg-blue-100 rounded-md">Sign in</button>
+    </div>
 </body>
 </html>
