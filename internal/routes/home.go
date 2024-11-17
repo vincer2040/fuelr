@@ -20,9 +20,11 @@ func HomeGet(c echo.Context) error {
         return err
     }
 
-    firstName, err := cc.DB.GetFirstNameById(context.TODO(), sessionData.UserID)
+    user, err := cc.DB.GetUserById(context.TODO(), sessionData.UserID)
 
 	return c.Render(http.StatusOK, "home.html", map[string]interface{}{
-		"FirstName": firstName,
+        "Picture": user.Picture,
+        "Route": "Home",
+		"FirstName": user.FirstName,
 	})
 }

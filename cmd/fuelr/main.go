@@ -75,6 +75,9 @@ func main() {
 
     // main app routes
 	e.GET("/home", fuelrmiddleware.AuthMiddleware(routes.HomeGet))
+    e.GET("/nutrition", fuelrmiddleware.AuthMiddleware(routes.NutritionGet))
+    e.GET("/workouts", fuelrmiddleware.AuthMiddleware(routes.WorkoutsGet))
+    e.GET("/me", fuelrmiddleware.AuthMiddleware(routes.MeGet))
 
 	e.Logger.Fatal(e.Start(":6969"))
 }
