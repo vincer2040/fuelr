@@ -23,5 +23,5 @@ func GetGoogleOauthStateString() string {
 }
 
 func GetStoreSecret() string {
-    return os.Getenv("STORE_SECRET")
+	return os.Getenv("STORE_SECRET")
 }

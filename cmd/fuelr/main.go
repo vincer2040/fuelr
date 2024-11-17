@@ -64,20 +64,20 @@ func main() {
 
 	e.Static("/styles", "public/styles")
 
-    // root
+	// root
 	e.GET("/", routes.RootGet)
 
-    // authentication routes
+	// authentication routes
 	e.GET("/signin", fuelrmiddleware.AuthMiddleware(routes.SignInGet))
 	e.GET("/signin-gl", routes.GoogleAuthGet)
 	e.GET("/callback-gl", routes.GoogleAuthCallBack)
-    e.GET("/signout", fuelrmiddleware.AuthMiddleware(routes.SignOutGet))
+	e.GET("/signout", fuelrmiddleware.AuthMiddleware(routes.SignOutGet))
 
-    // main app routes
+	// main app routes
 	e.GET("/home", fuelrmiddleware.AuthMiddleware(routes.HomeGet))
-    e.GET("/nutrition", fuelrmiddleware.AuthMiddleware(routes.NutritionGet))
-    e.GET("/workouts", fuelrmiddleware.AuthMiddleware(routes.WorkoutsGet))
-    e.GET("/me", fuelrmiddleware.AuthMiddleware(routes.MeGet))
+	e.GET("/nutrition", fuelrmiddleware.AuthMiddleware(routes.NutritionGet))
+	e.GET("/workouts", fuelrmiddleware.AuthMiddleware(routes.WorkoutsGet))
+	e.GET("/me", fuelrmiddleware.AuthMiddleware(routes.MeGet))
 
 	e.Logger.Fatal(e.Start(":6969"))
 }

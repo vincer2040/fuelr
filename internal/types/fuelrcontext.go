@@ -7,7 +7,7 @@ import (
 )
 
 type FuelrContext struct {
-    echo.Context
-    Store *sessions.CookieStore
-    DB *db.Queries
+	echo.Context
+	Store *sessions.CookieStore
+	DB    *db.Queries
 }

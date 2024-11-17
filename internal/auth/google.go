@@ -85,17 +85,17 @@ func GoogleCallBack(c echo.Context) (*types.GoogleUserInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-    return &googleUserInfo, nil
+	return &googleUserInfo, nil
 }
 
-type InvalidState struct {}
+type InvalidState struct{}
 
 func (invalidState *InvalidState) Error() string {
-    return "Invalid state"
+	return "Invalid state"
 }
 
-type NoCodeProvided struct {}
+type NoCodeProvided struct{}
 
 func (noCodeProvided NoCodeProvided) Error() string {
-    return "No code provided"
+	return "No code provided"
 }
