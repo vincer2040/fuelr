@@ -5,3 +5,4 @@ tmp
 testdb
 .env
 internal/db/*.go
+localdb/local.db
