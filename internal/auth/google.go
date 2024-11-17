@@ -3,7 +3,6 @@ package auth
 import (
 	"encoding/json"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -41,7 +40,6 @@ func GoogleLogIn(c echo.Context) error {
 		return err
 	}
 	parameters := url.Values{}
-	log.Println("CLIENT ID: " + oauthConfGl.ClientID)
 	parameters.Add("client_id", oauthConfGl.ClientID)
 	parameters.Add("scope", strings.Join(oauthConfGl.Scopes, " "))
 	parameters.Add("redirect_uri", oauthConfGl.RedirectURL)
@@ -49,44 +47,55 @@ func GoogleLogIn(c echo.Context) error {
 	parameters.Add("state", oauthStateStringGl)
 	URL.RawQuery = parameters.Encode()
 	url := URL.String()
-	log.Println("URL : " + url)
 	c.Response().Header().Add("HX-Redirect", url)
 	return nil
 }
 
-func GoogleCallBack(c echo.Context) error {
+func GoogleCallBack(c echo.Context) (*types.GoogleUserInfo, error) {
 	state := c.FormValue("state")
 	if state != oauthStateStringGl {
 		c.Response().Header().Add("HX-Redirect", "/")
-		return nil
+		return nil, &InvalidState{}
 	}
 
 	code := c.FormValue("code")
 	if code == "" {
 		c.Response().Header().Add("HX-Redirect", "/")
-		return nil
+		return nil, &NoCodeProvided{}
 	}
 
 	token, err := oauthConfGl.Exchange(oauth2.NoContext, code)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	resp, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + url.QueryEscape(token.AccessToken))
 	if err != nil {
-		return err
+		return nil, err
 	}
 	defer resp.Body.Close()
 
 	response, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	var googleUserInfo types.GoogleUserInfo
-	err = json.Unmarshal(response, googleUserInfo)
+	err = json.Unmarshal(response, &googleUserInfo)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return c.String(http.StatusOK, string(response))
+    return &googleUserInfo, nil
+}
+
+type InvalidState struct {}
+
+func (invalidState *InvalidState) Error() string {
+    return "Invalid state"
+}
+
+type NoCodeProvided struct {}
+
+func (noCodeProvided NoCodeProvided) Error() string {
+    return "No code provided"
 }
