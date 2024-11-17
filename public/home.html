@@ -7,6 +7,9 @@
     <script src="https://unpkg.com/htmx.org@2.0.3"></script>
 </head>
 <body>
-    <h1 class="text-3xl">Hello, { .FirstName }!</h1>
+    <h1 class="text-3xl">Hello, {{ .FirstName }}!</h1>
+    <button hx-get="/signout" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+        Log Out
+    </button>
 </body>
 </html>

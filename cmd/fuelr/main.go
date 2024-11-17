@@ -14,6 +14,7 @@ import (
 	"github.com/vincer2040/fuelr/internal/auth"
 	"github.com/vincer2040/fuelr/internal/db"
 	"github.com/vincer2040/fuelr/internal/env"
+	"github.com/vincer2040/fuelr/internal/fuelrmiddleware"
 	"github.com/vincer2040/fuelr/internal/render"
 	"github.com/vincer2040/fuelr/internal/routes"
 	"github.com/vincer2040/fuelr/internal/types"
@@ -63,11 +64,17 @@ func main() {
 
 	e.Static("/styles", "public/styles")
 
+    // root
 	e.GET("/", routes.RootGet)
-	e.GET("/signin", routes.SignInGet)
 
+    // authentication routes
+	e.GET("/signin", fuelrmiddleware.AuthMiddleware(routes.SignInGet))
 	e.GET("/signin-gl", routes.GoogleAuthGet)
 	e.GET("/callback-gl", routes.GoogleAuthCallBack)
+    e.GET("/signout", fuelrmiddleware.AuthMiddleware(routes.SignOutGet))
+
+    // main app routes
+	e.GET("/home", fuelrmiddleware.AuthMiddleware(routes.HomeGet))
 
 	e.Logger.Fatal(e.Start(":6969"))
 }

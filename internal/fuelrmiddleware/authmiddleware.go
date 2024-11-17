@@ -13,25 +13,25 @@ func AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
         url := cc.Request().URL.String()
         session, err := cc.Store.Get(cc.Request(), "auth-session")
         if err != nil || session.IsNew {
-            if url == "/" {
+            if url == "/signin" {
                 return next(cc)
             }
-            return cc.Redirect(http.StatusSeeOther, "/")
+            return cc.Redirect(http.StatusSeeOther, "/signin")
         }
         sessionData, err := types.SessionDataFromSession(session)
         if err != nil {
-            if url == "/" {
+            if url == "/signin" {
                 return next(cc)
             }
-            return cc.Redirect(http.StatusSeeOther, "/")
+            return cc.Redirect(http.StatusSeeOther, "/signin")
         }
         if !sessionData.Authenticated {
-            if url == "/" {
+            if url == "/signin" {
                 return next(cc)
             }
-            return cc.Redirect(http.StatusSeeOther, "/")
+            return cc.Redirect(http.StatusSeeOther, "/signin")
         }
-        if url == "/" {
+        if url == "/signin" {
             return cc.Redirect(http.StatusSeeOther, "/home")
         }
         return next(c)
